@@ -18,4 +18,4 @@ Audio, full transcripts, and per-episode labels stay in the git-ignored `private
 TODO: prerequisites and pipeline command (added with the walking-skeleton issue). Copy `.env.example` to `.env`.
 
 ## License
-Undecided.
+Apache-2.0. See [LICENSE](LICENSE).
