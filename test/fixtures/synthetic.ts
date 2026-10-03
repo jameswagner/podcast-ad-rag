@@ -1,6 +1,7 @@
 // Synthetic data only. Not real episode text.
 export const episode = {
-  guid: 'test-guid-1',
+  podcastId: 'test',
+  guid: 'guid-1',
   title: 'Synthetic Episode',
   description: 'A made-up episode.',
   pubDate: '2024-01-01T00:00:00Z',
@@ -9,7 +10,7 @@ export const episode = {
 };
 
 export const ad = {
-  episodeGuid: 'test-guid-1',
+  episodeId: 'test:guid-1',
   start: 10,
   end: 40,
   type: 'sponsor' as const,

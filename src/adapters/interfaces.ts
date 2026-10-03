@@ -7,7 +7,7 @@ export interface ObjectStorage {
 }
 
 export interface Transcriber {
-  transcribe(audioPath: string, episodeGuid: string): Promise<Transcript>;
+  transcribe(audioPath: string, episodeId: string): Promise<Transcript>;
 }
 
 export interface VectorRecord {
@@ -31,8 +31,8 @@ export interface LLM {
 }
 
 export interface LedgerStore {
-  putAds(episodeGuid: string, ads: AdSegment[]): Promise<void>;
-  getAdsForEpisode(episodeGuid: string): Promise<AdSegment[]>;
+  putAds(episodeId: string, ads: AdSegment[]): Promise<void>;
+  getAdsForEpisode(episodeId: string): Promise<AdSegment[]>;
   findEpisodesBySponsor(sponsor: string): Promise<string[]>;
 }
 

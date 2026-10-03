@@ -42,7 +42,7 @@ export class NoopTracer implements Tracer {
   }
 }
 
-/** Ledger stored as one JSON object in ObjectStorage: { [episodeGuid]: AdSegment[] }. */
+/** Ledger stored as one JSON object in ObjectStorage: { [episodeId]: AdSegment[] }. */
 export class JsonLedgerStore implements LedgerStore {
   constructor(
     private storage: ObjectStorage,
@@ -59,13 +59,13 @@ export class JsonLedgerStore implements LedgerStore {
       ]),
     );
   }
-  async putAds(episodeGuid: string, ads: AdSegment[]): Promise<void> {
+  async putAds(episodeId: string, ads: AdSegment[]): Promise<void> {
     const all = await this.load();
-    all[episodeGuid] = AdSegment.array().parse(ads);
+    all[episodeId] = AdSegment.array().parse(ads);
     await this.storage.put(this.key, JSON.stringify(all, null, 2));
   }
-  async getAdsForEpisode(episodeGuid: string): Promise<AdSegment[]> {
-    return (await this.load())[episodeGuid] ?? [];
+  async getAdsForEpisode(episodeId: string): Promise<AdSegment[]> {
+    return (await this.load())[episodeId] ?? [];
   }
   async findEpisodesBySponsor(sponsor: string): Promise<string[]> {
     const needle = sponsor.toLowerCase();

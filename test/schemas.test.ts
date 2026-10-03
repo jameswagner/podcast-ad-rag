@@ -3,6 +3,7 @@ import {
   AdSegment,
   Chunk,
   Episode,
+  Podcast,
   RouterOutput,
   Transcript,
 } from '../src/schemas/index.js';
@@ -10,7 +11,7 @@ import { ad, episode } from './fixtures/synthetic.js';
 
 describe('schemas', () => {
   it('accepts valid episode and ad', () => {
-    expect(Episode.parse(episode).guid).toBe('test-guid-1');
+    expect(Episode.parse(episode).guid).toBe('guid-1');
     expect(AdSegment.parse(ad).code).toBe('TEST50');
   });
   it('rejects ad with end before start', () => {
@@ -18,7 +19,7 @@ describe('schemas', () => {
   });
   it('rejects word with end before start', () => {
     const t = {
-      episodeGuid: 'g',
+      episodeId: 't:g',
       audioHash: 'h',
       model: 'm',
       words: [{ word: 'a', start: 2, end: 1 }],
@@ -28,7 +29,7 @@ describe('schemas', () => {
   it('rejects empty chunk text', () => {
     const c = {
       id: '1',
-      episodeGuid: 'g',
+      episodeId: 't:g',
       start: 0,
       end: 1,
       text: '',
@@ -43,5 +44,20 @@ describe('schemas', () => {
     expect(() =>
       RouterOutput.parse({ route: 'ledger', tool: 'dropTable', args: {} }),
     ).toThrow();
+  });
+});
+
+describe('ids', () => {
+  it('rejects an episodeId without a podcast prefix', () => {
+    expect(() => AdSegment.parse({ ...ad, episodeId: 'guid-1' })).toThrow();
+  });
+  it('accepts a podcast', () => {
+    expect(
+      Podcast.parse({
+        id: 'yanss',
+        title: 'T',
+        feedUrl: 'https://example.com/f',
+      }).id,
+    ).toBe('yanss');
   });
 });

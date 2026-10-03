@@ -1,6 +1,19 @@
 import { z } from 'zod';
 
+export const Podcast = z.object({
+  id: z.string().regex(/^[a-z0-9-]+$/, 'lowercase slug'),
+  title: z.string(),
+  feedUrl: z.string().url(),
+});
+export type Podcast = z.infer<typeof Podcast>;
+
+/** Episode key used everywhere downstream: `<podcastId>:<guid>`. GUIDs are only unique per feed. */
+export const EpisodeId = z
+  .string()
+  .regex(/^[a-z0-9-]+:.+$/, 'expected <podcastId>:<guid>');
+
 export const Episode = z.object({
+  podcastId: Podcast.shape.id,
   guid: z.string().min(1),
   title: z.string(),
   description: z.string().default(''),
@@ -20,7 +33,7 @@ export const Word = z
 export type Word = z.infer<typeof Word>;
 
 export const Transcript = z.object({
-  episodeGuid: z.string().min(1),
+  episodeId: EpisodeId,
   audioHash: z.string().min(1),
   model: z.string(),
   words: z.array(Word),
@@ -32,7 +45,7 @@ export type AdType = z.infer<typeof AdType>;
 
 export const AdSegment = z
   .object({
-    episodeGuid: z.string().min(1),
+    episodeId: EpisodeId,
     start: z.number().nonnegative(),
     end: z.number().nonnegative(),
     type: AdType,
@@ -48,7 +61,7 @@ export type AdSegment = z.infer<typeof AdSegment>;
 export const Chunk = z
   .object({
     id: z.string().min(1),
-    episodeGuid: z.string().min(1),
+    episodeId: EpisodeId,
     start: z.number().nonnegative(),
     end: z.number().nonnegative(),
     text: z.string().min(1),
@@ -61,7 +74,7 @@ export const RouterOutput = z.union([
   z.object({
     route: z.literal('ledger'),
     tool: z.literal('getAdsForEpisode'),
-    args: z.object({ episodeGuid: z.string().min(1) }),
+    args: z.object({ episodeId: EpisodeId }),
   }),
   z.object({
     route: z.literal('ledger'),
