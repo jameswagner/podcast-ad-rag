@@ -8,18 +8,21 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "format": "prettier --check .",
-    "test": "vitest run"
+    "test": "vitest run",
+    "ingest": "tsx src/cli/ingest.ts"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/node": "^26.6.4",
     "eslint": "^10.12.0",
     "prettier": "^3.9.9",
+    "tsx": "^4.23.15",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.71.0",
     "vitest": "^5.0.3"
   },
   "dependencies": {
+    "fast-xml-parser": "^5.11.2",
     "zod": "^4.6.5"
   }
 }

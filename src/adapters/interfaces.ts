@@ -7,7 +7,11 @@ export interface ObjectStorage {
 }
 
 export interface Transcriber {
-  transcribe(audioPath: string, episodeId: string): Promise<Transcript>;
+  /** Hash of the audio is stamped by the caller, which owns the file. */
+  transcribe(
+    audioPath: string,
+    episodeId: string,
+  ): Promise<Omit<Transcript, 'audioHash'>>;
 }
 
 export interface VectorRecord {

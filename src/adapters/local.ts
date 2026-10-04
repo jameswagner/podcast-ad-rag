@@ -8,7 +8,7 @@ export class LocalObjectStorage implements ObjectStorage {
   constructor(root: string) {
     this.root = resolve(root);
   }
-  private path(key: string): string {
+  path(key: string): string {
     const p = resolve(join(this.root, key));
     if (!p.startsWith(this.root + sep))
       throw new Error(`key escapes storage root: ${key}`);
